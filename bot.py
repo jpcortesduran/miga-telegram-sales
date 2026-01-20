@@ -3,7 +3,7 @@
 
 import gspread
 from google.oauth2.service_account import Credentials
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 from warnings import filterwarnings
 import logging
@@ -657,7 +657,9 @@ class bot:
 
         cart = context.user_data["cart"]
         payment = context.user_data["sale_payment_method"]
-        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        tz_co = timezone(timedelta(hours=-5))
+        ts = datetime.now(timezone.utc).astimezone(tz_co).strftime("%Y-%m-%d %H:%M:%S")
 
         rows = []
         for item in cart:
